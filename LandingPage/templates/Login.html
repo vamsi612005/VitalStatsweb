@@ -1,0 +1,61 @@
+{% load static tailwind_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% tailwind_css %}
+    <title>Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+<body class=" bg-color-primary-dark text-white ">
+
+    <div class=" flex h-screen justify-center my-16">
+        <form action="{% url 'user_login' %}" method="POST" >
+            {% csrf_token %}
+            <div class="bg-color-primary rounded-2xl w-80 ">
+                    <div class="flex  flex-col gap-4 p-8">
+                        <p class="text-2xl text-center font-semibold text-color-secondary mb-4">Login</p>
+                        <input name="username" class="bg-slate-900 w-full rounded-lg border border-gray-300 px-3 py-3 placeholder-white" placeholder="Username">
+                        <div class="relative">
+                            <input type="password" name="password" id="passwordInput" class="bg-slate-900 w-full rounded-lg border border-gray-300 px-4 py-3 placeholder-white" placeholder="Password">
+                            <span class="absolute right-4 top-3 cursor-pointer" onclick="togglePasswordVisibility('passwordInput')">
+                                <i id="passwordInput-icon" class="far fa-eye text-white duration-200"></i>
+                            </span>
+                        </div>
+                        <div class="text-right">
+                             <a href="" class="text-gray-300">Forget Password</a>
+                        </div>
+                        <button class="btn block w-full py-2 px-4">Login</button>
+                      <p class="text-sm">  Don't have an account? <a href="{% url 'register' %}" class="text-color-secondary">Register</a> </p>
+                    </div>
+            </div>
+        </form>
+    </div>
+<script>
+    function togglePasswordVisibility(inputId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(inputId + '-icon');
+        if (input.type === "password") {
+            input.type = "text";
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = "password";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+    window.history.pushState(null, "", window.location.href);
+window.onpopstate = function () {
+    window.history.pushState(null, "", window.location.href);
+};
+
+</script>
+
+{% if messages %}
+        {% for message in messages %}
+            <script> alert('{{ message }}') </script>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

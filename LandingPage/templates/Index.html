@@ -1,0 +1,309 @@
+{% load static tailwind_tags %}
+{% load static %}
+<html lang="en" class="scroll-smooth duration-300">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vital Stats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     {% tailwind_css %}
+    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"  />
+</head>
+<body class="bg-color-primary text-white">
+    <header class="sticky top-0 z-50">
+        <nav class="container flex justify-between items-center">
+            <div class="py-5 text-color-secondary font-bold text-3xl">
+                <a href="/">
+                    <span class="text-color-white">Vital </span><span class="text-color-secondary">Stats.</span>
+                </a>
+            </div>
+            <div>
+                <ul class="hidden lg:flex items-center space-x-6">
+                    <li><a href="#home" class="hover:text-color-secondary ease-in duration-200">Home</a></li>
+                    <li><a href="#features" class="hover:text-color-secondary ease-in duration-200">Features</a></li>
+                    <li><a href="#team" class="hover:text-color-secondary ease-in duration-200">Our Team</a></li>
+                    <li><a href="#contact" class="hover:text-color-secondary ease-in duration-200">Contact</a></li>
+                    <li><a  href="{% url 'login'%}" class="bg-color-secondary px-9 py-3 rounded-lg capitalize font-bold hover:opacity-80 ease-in duration-200 ">Login</a></li>
+                </ul>
+            </div>
+
+            <!-- Mobile screen  -->
+            <div id="hamburger" class="lg:hidden cursor-pointer z-50">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+
+            <div id="menu" class="hidden absolute inset-0 m-10 justify-center items-center">
+                <ul class="space-y-4 bg-slate-600 rounded-lg p-4">
+                    <li><a href="#home" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Home</a></li>
+                    <li><a href="#features" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Features</a></li>
+                    <li><a href="#team" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Our Team</a></li>
+                    <li><a href="#contact" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Contact</a></li>
+                    <li>
+                       <a  href="{% url 'login'%}" class="bg-color-secondary px-9 py-3 rounded-lg capitalize font-bold hover:opacity-80 ease-in duration-200 ">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0 fade-in-background"  style="background-image: url('{% static 'images/hero.jpeg' %}')"></div>
+        <section id="home" class="relative w-full h-screen text-color-secondary">
+          <div class="container py-20 relative z-10">
+            <div class="flex flex-col items-center md:flex-row">
+              <div class="md:w-4/6 md:mx-32">
+                <h1 class="max-w-md text-4xl font-bold text-center my-6 md:text-5xl md:text-left  slide-in-from-left">Revolutionize Healthcare with Seamless Patient Data Management</h1>
+                <div class="py-10">
+                    <p class="text-lg leading-relaxed my-2 gap-3 text-color-blob md:text-left animate-slide-right">Welcome to the forefront of healthcare innovation! Our revolutionary platform is poised to transform the way patient data is managed, paving the way for seamless, efficient, and secure healthcare experiences.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+    <section id="features" class="bg-color-primary-light mb-4 animate__animated animate__fadeInTop">
+    <div class="container py-20 ">
+      <div class="text-center m-auto mb-20 md:w-1/2">
+        <h4 class="font-bold text-color-secondary mb-4">Our Features</h4>
+        <h1 class="title">Empowering Your Healthcare Journey</h1>
+      </div>
+      <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-12 lg:gap-8 px-4 sm:px-6 lg:px-8">
+        <!-- Data Storage and Fast Retrieval -->
+        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 fade-in-up">
+          <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
+            <i class="fa-solid fa-database text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold py-4">Data Storage and Fast Retrieval</h3>
+          <p class="leading-relaxed">Efficiently store and retrieve patient data with lightning-fast speed.</p>
+        </div>
+
+        <!-- Report Generation -->
+        <div class="bg-color-primary-dark  hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer fade-in-up">
+          <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
+            <i class="fa-solid fa-file-alt text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold py-4">Report Generation</h3>
+          <p class="leading-relaxed">Generate comprehensive reports for detailed analysis and decision-making.</p>
+        </div>
+
+        <!-- Data Splitting -->
+        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 fade-in-up">
+          <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
+            <i class="fa-solid fa-folder-split text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold py-4">Data Splitting</h3>
+          <p class="leading-relaxed">Organize reports, prescriptions, and scans efficiently for easy access.</p>
+        </div>
+
+        <!-- Medical Data Analysis -->
+        <div class="bg-color-primary-dark hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer fade-in-up">
+          <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
+            <i class="fa-solid fa-chart-line text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold py-4">Medical Data Analysis</h3>
+          <p class="leading-relaxed">Leverage powerful analytics tools to gain insights from medical data.</p>
+        </div>
+
+        <!-- Health Suggestions -->
+        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 fade-in-up">
+          <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
+            <i class="fa-solid fa-heartbeat text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold py-4">Health Suggestions</h3>
+          <p class="leading-relaxed">Receive personalized health suggestions based on your medical history.</p>
+        </div>
+
+        <!-- Nearby Hospital & Pharmacy -->
+        <div class="bg-color-primary-dark  hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer fade-in-up">
+          <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
+            <i class="fa-solid fa-hospital-user text-4xl"></i>
+          </div>
+          <h3 class="text-xl font-bold py-4">Nearby Hospital & Pharmacy</h3>
+          <p class="leading-relaxed">Locate nearby hospitals and pharmacies for convenient access to healthcare services.</p>
+        </div>
+      </div>
+    </div>
+    </section>
+
+<!--    <section id="team" class="bg-color-primary-light ">-->
+<!--        <div class="container flex justify-center mx-auto pt-16">-->
+<!--            <div>-->
+<!--                <p class="text-color-secondary font-bold    text-xl text-center pb-3">BUILDING TEAM</p>-->
+<!--                <h1 class="xl:text-4xl text-3xl text-center text-white font-extrabold pb-6 sm:w-4/6 w-5/6 mx-auto">The Talented People Behind the Scenes of the Organization</h1>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="w-full px-20  pt-10">-->
+<!--            <div class="container mx-auto">-->
+<!--                <div role="list" aria-label="Behind the scenes People " class="lg:flex md:flex sm:flex items-center xl:justify-between flex-wrap md:justify-around sm:justify-around lg:justify-around">-->
+<!--                    <div role="listitem" class="xl:w-1/3 sm:w-3/4 md:w-2/5 relative mt-16 mb-32 sm:mb-24 xl:max-w-sm lg:w-2/5">-->
+<!--                        <div class="rounded overflow-hidden shadow-md bg-white dark:bg-gray-900">-->
+<!--                            <div class="absolute -mt-20 w-full flex justify-center">-->
+<!--                                <div class="h-32 w-32">-->
+<!--                                    <img src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="Display Picture of Andres Berlin" role="img" class="rounded-full object-cover h-full w-full shadow-md" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="px-6 mt-16">-->
+<!--                                <h1 class="font-bold text-color-secondary text-2xl text-center mb-1">HARSHA SARLA</h1>-->
+<!--                                <p class="text-gray-800 dark:text-white text-sm text-center">CEO</p>-->
+<!--                                <p class="text-center text-gray-600 dark:text-gray-200 text-base pt-3 font-normal">The CEO's role in raising a company's corporate IQ is to establish an atmosphere that promotes knowledge sharing and collaboration.</p>-->
+<!--                                <div class="w-full flex justify-center pt-5 gap-5 pb-5">-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div role="listitem" class="xl:w-1/3 lg:mx-3 sm:w-3/4 md:w-2/5 relative mt-16 mb-32 sm:mb-24 xl:max-w-sm lg:w-2/5">-->
+<!--                        <div class="rounded overflow-hidden shadow-md bg-white dark:bg-gray-900">-->
+<!--                            <div class="absolute -mt-20 w-full flex justify-center">-->
+<!--                                <div class="h-32 w-32">-->
+<!--                                    <img src="https://cdn.tuk.dev/assets/photo-1530577197743-7adf14294584.jfif" alt="Display Picture of Silene Tokyo" role="img" class="rounded-full object-cover h-full w-full shadow-md" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="px-6 mt-16">-->
+<!--                                <h1 class="font-bold text-color-secondary text-2xl text-center mb-1">VAMSI P</h1>-->
+<!--                                <p class="text-gray-800 dark:text-white text-sm text-center">COO</p>-->
+<!--                                <p class="text-center text-gray-600 dark:text-gray-200 text-base pt-3 font-normal">The emphasis on innovation and technology in our companies has resulted in a few of them establishing global benchmarks in product design and development.</p>-->
+<!--                                <div class="w-full flex justify-center pt-5 gap-5 pb-5">-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div role="listitem" class="xl:w-1/3 sm:w-3/4 md:w-2/5 relative mt-16 mb-32 sm:mb-24 xl:max-w-sm lg:w-2/5">-->
+<!--                        <div class="rounded overflow-hidden shadow-md bg-white dark:bg-gray-900">-->
+<!--                            <div class="absolute -mt-20 w-full flex justify-center">-->
+<!--                                <div class="h-32 w-32">-->
+<!--                                    <img src="https://cdn.tuk.dev/assets/photo-1566753323558-f4e0952af115.jfif" alt="Display Picture of Johnson Stone" role="img" class="rounded-full object-cover h-full w-full shadow-md" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="px-6 mt-16">-->
+<!--                                <h1 class="font-bold text-color-secondary text-2xl text-center mb-1">LALITESH M</h1>-->
+<!--                                <p class="text-gray-800 dark:text-white text-sm text-center">CTO</p>-->
+<!--                                <p class="text-center text-gray-600 dark:text-gray-200 text-base pt-3 font-normal">Our services encompass the assessment and repair of property damage caused by water, fire, smoke, or mold. We can also be a part of the restoration.</p>-->
+<!--                                <div class="w-full flex justify-center pt-5 gap-5 pb-5">-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div role="listitem" class="xl:w-1/3 sm:w-3/4 md:w-2/5 relative mt-16 mb-32 sm:mb-24 xl:max-w-sm lg:w-2/5">-->
+<!--                        <div class="rounded overflow-hidden shadow-md bg-white dark:bg-gray-900">-->
+<!--                            <div class="absolute -mt-20 w-full flex justify-center">-->
+<!--                                <div class="h-32 w-32">-->
+<!--                                    <img src="https://cdn.tuk.dev/assets/boy-smiling_23-2148155640.jpg" alt="Display Picture of Dean Jones" role="img" class="rounded-full object-cover h-full w-full shadow-md" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="px-6 mt-16">-->
+<!--                                <h1 class="font-bold text-color-secondary text-2xl text-center mb-1">PRANAV</h1>-->
+<!--                                <p class="text-gray-800 dark:text-white text-sm text-center">CMO</p>-->
+<!--                                <p class="text-center text-gray-600 dark:text-gray-200 text-base pt-3 font-normal">An avid open-source developer who loves to be creative and inventive. I have 20 years of experience in the field.</p>-->
+<!--                                <div class="w-full flex justify-center pt-5 gap-5 pb-5">-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div role="listitem" class="xl:w-1/3 sm:w-3/4 md:w-2/5 relative mt-16 mb-32 sm:mb-24 xl:max-w-sm lg:w-2/5">-->
+<!--                        <div class="rounded overflow-hidden shadow-md bg-white dark:bg-gray-900">-->
+<!--                            <div class="absolute -mt-20 w-full flex justify-center">-->
+<!--                                <div class="h-32 w-32">-->
+<!--                                    <img src="https://cdn.tuk.dev/assets/blond-man-happy-expression_1194-2873.jpg" alt="Display Picture of Rachel Adams" role="img" class="rounded-full object-cover h-full w-full shadow-md" />-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="px-6 mt-16">-->
+<!--                                <h1 class="font-bold text-color-secondary text-2xl text-center mb-1">SUBBU</h1>-->
+<!--                                <p class="text-gray-800 dark:text-white text-sm text-center">ADVISIOR</p>-->
+<!--                                <p class="text-center text-gray-600 dark:text-gray-200 text-base pt-3 font-normal">Product designer with interests in immersive computing and XR, political ventures, and emerging technologies. Able to take ideas and give them a life.</p>-->
+<!--                                <div class="w-full flex justify-center pt-5 gap-5 pb-5">-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>-->
+<!--                                    <a href="#" class="text-slate-500 hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    <section id="download-app" class="bg-color-primary-light">
+            <div class="container h-[80vh] grid place-items-center">
+                <div class="text-center md:w-2/3 m-auto">
+                    <h1 class="title">Medical Health Data Storage and Reporting</h1>
+                    <p class="leading-relaxed pt-5">Effortlessly manage and securely store your medical records and reports with our comprehensive app.</p>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-5 pt-10">
+                        <a href="#" class="bg-color-white h-16 w-44 grid place-items-center rounded-lg hover:opacity-70">
+                            <img src="{% static 'images/ios-store-dark.png' %}" alt="">
+                        </a>
+                        <a href="#" class="bg-color-white h-16 w-44 grid place-items-center rounded-lg hover:opacity-70">
+                            <img src="{% static 'images/g-play-dark.png' %}" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact">
+            <div class="container py-20">
+                <div class="text-center m-auto mb-20 md:w-1/2">
+                    <h4 class="font-bold text-color-secondary mb-4">Have A Questation</h4>
+                    <h1 class="title">Get In Touch</h1>
+                </div>
+                <form action="{% url 'contact_us' %}" method="POST">
+                    {%  csrf_token %}
+                    <div class="w-full m-auto text-center md:w-2/3">
+                        <div class="text-color-primary-dark grid gap-6 mb-6 md:grid-cols-2">
+                            <input name="name" required type="text" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Name">
+                            <input name="email" required type="email" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Email">
+                            <input name="phonenumber" required type="tel" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Phone">
+                            <input  name="company" required type="text" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Company">
+                        </div>
+                        <textarea name="message" required rows="4" class="text-color-primary-dark bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Message"></textarea>
+                        <button class="btn mt-10">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="footer ">
+            <div class="container py-6">
+                <div class="flex justify-center items-center gap-6 pb-4">
+                    <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="flex justify-center border-t border-gray-200 py-4 mt-3">
+                    <a  href ="" class="text-lg hover:text-color-secondary">&copy; 2024 Vital Stats. All Rights Reserved.</a >
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {% if messages %}
+        {% for message in messages %}
+            <script> alert('{{ message }}') </script>
+        {% endfor %}
+    {% endif %}
+    <script type="text/javascript" src="{% static 'js/main.js'%}" ></script>
+</body>
+</html>

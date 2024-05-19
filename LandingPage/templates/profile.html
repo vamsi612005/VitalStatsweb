@@ -1,0 +1,152 @@
+{% load static tailwind_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% tailwind_css %}
+    <title>Profile</title>
+
+</head>
+<body>
+
+<section class=" py-1 bg-blue-100 bg-color-primary ">
+<div class="w-full lg:w-8/12 px-4 mx-auto mt-6">
+  <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+    <div class="rounded-t bg-white mb-0 px-6 py-6">
+      <div class="text-center flex content-center justify-between">
+        <h6 class="text-color-secondary  text-2xl uppercase font-bold">
+          My account
+        </h6>
+      </div>
+    </div>
+    <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+      <form method="POST" action="{% url 'checkdetails' %}"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <h6 class="text-color-secondary text-lg mt-3 mb-6 font-bold uppercase">
+          User Information
+        </h6>
+           <div class="px-6 py-8">
+            <div class="flex justify-center mb-6">
+                <div class="relative">
+                    <img id="profileImagePreview" src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="Profile Picture" class="rounded-full h-32 w-32 object-cover shadow-md" />
+                    <label for="profile_image" class="absolute inset-0 flex items-center justify-center cursor-pointer bg-black bg-opacity-50 rounded-full text-white">
+                        <i class="fa fa-camera"></i>
+                    </label>
+                    <input id="profile_image" required class="hidden" name="profile_image" type="file" accept=".png, .jpg, .jpeg" onchange="previewImage(event)" />
+                </div>
+            </div>
+        <div class="flex flex-wrap">
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase  text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Username
+              </label>
+                <input type="hidden" name="username" value="{{ user.username }}">
+              <input type="text"  disabled value="{{ user}}" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase  text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Email address
+              </label>
+                <input type="hidden" name="email" value="{{ user.email }}">
+
+                <input type="email"  value="{{ user.email }}" disabled class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded  shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+            </div>
+          </div>
+          <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Full Name
+              </label>
+              <input type="text" required name="name" class="border-0 px-3 py-3 placeholder-blueGray-300  bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+           <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase  text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                phone number
+              </label>
+              <input type="number" required name="phonenumber" class="border-0 px-3 py-3 placeholder-blueGray-300  text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+           <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Nominee Name
+              </label>
+              <input type="text" name="nomineename"  required class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+           <div class="w-full lg:w-6/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Nominee  Phone number
+              </label>
+              <input type="number" required name="nomineename" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+        </div>
+
+        <hr class="mt-6 border-b-1 border-blueGray-300">
+
+        <h6 class="text-color-secondary text-sm mt-3 mb-6 font-bold uppercase">
+          Contact Information
+        </h6>
+        <div class="flex flex-wrap">
+          <div class="w-full lg:w-12/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Address
+              </label>
+              <input type="text" required name="address" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+          <div class="w-full lg:w-4/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                City
+              </label>
+              <input type="text" required name="city" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+          <div class="w-full lg:w-4/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white text-xs font-bold mb-2" htmlfor="grid-password">
+                Country
+              </label>
+              <input type="text" required name="country" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" >
+            </div>
+          </div>
+          <div class="w-full lg:w-4/12 px-4">
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-white
+               text-xs font-bold mb-2" htmlfor="grid-password">
+                Postal Code
+              </label>
+              <input type="text"  required name="postalcode" class="border-0 px-3 py-3 placeholder-blueGray-300  bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center py-3">
+            <input type="submit"  class="btn duration-100" name="Save"/>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</section>
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('profileImagePreview');
+            output.src = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
+</body>
+</html>
