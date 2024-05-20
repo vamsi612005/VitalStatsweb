@@ -1,11 +1,11 @@
 import uuid
+from django.utils import timezone
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import ContactUs, Register, Profile
 
@@ -46,12 +46,11 @@ def register(request):
 
 def create_user(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
         email = request.POST.get('email')
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-        if not (name and email and username and password):
+        print(password)
+        if not ( email and username and password):
             messages.error(request, 'All fields are required.')
             return redirect('register')
         else:
@@ -63,8 +62,9 @@ def create_user(request):
                 return redirect('register')
             else:
                 try:
-                    password = make_password(password)
-                    user = Register.objects.create(name=name, username=username, email=email, password=password)
+                    hash_password = make_password(password)
+                    print(hash_password)
+                    user = Register.objects.create(username=username, email=email, password=hash_password)
                     user.save()
                     messages.success(request, 'User created successfully. You can now log in.')
                     return redirect('login')
@@ -79,27 +79,27 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
+        request.session['username'] = username
         if not username or not password:
             messages.error(request, 'Username and password are required.')
             return redirect('login')
 
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            try:
-                request.session["username"] = username
-                user = Register.objects.get(username=username)
-                if check_password(password, user.password):
-                    if user.details:
-                        return redirect('home')
-                    else:
-                        return redirect('profile')
-            except:
+        try:
+
+            user = authenticate(request, username=username, password=password)
+            request.session['username'] = username
+            print(user)
+            if user is not None :
+                login(request, user)
+                request.session['username'] = username
+                if user.details:
+                    return redirect('home')
+                else:
+                    return redirect('details')
+            else:
                 messages.error(request, 'Invalid username or password.')
                 return redirect('login')
-
-        else:
+        except Register.DoesNotExist:
             messages.error(request, 'Invalid username or password.')
             return redirect('login')
     else:
@@ -107,15 +107,21 @@ def user_login(request):
         return redirect('login')
 
 
-@login_required
 def home(request):
-    username =request.session.get('username')
-    print(username)
-    user_profile = Profile.objects.get(username=username)
-    profile_image = user_profile.profile_image if user_profile.profile_image else None
-    print(profile_image)
-    return render(request, "Home.html", {"img": profile_image})
-
+    if request.user.is_authenticated:
+        username = request.session.get('username')
+        try:
+            user_profile = Profile.objects.get(username=username)
+            profile_image = user_profile.profile_image if user_profile.profile_image else None
+            print(profile_image)
+            return render(request, "Home.html", {"img": profile_image})
+        except Profile.DoesNotExist:
+            # Handle case where profile does not exist
+            profile_image = None
+            return render(request, "Home.html", {"img": profile_image})
+    else:
+        # Handle case where user is not logged in
+        return redirect('login')
 
 def user_logout(request):
     request.session.flush()
@@ -123,11 +129,10 @@ def user_logout(request):
     return redirect('login')
 
 
-def profile(request):
-    username = request.session.get('username')
-    print(username)
+def details(request):
+    username = request.user.username
     data = Register.objects.filter(username=username).first()
-    return render(request, "profile.html", {'user': data})
+    return render(request, "userdetails.html", {'user': data})
 
 
 def checkdetails(request):
@@ -169,5 +174,5 @@ def checkdetails(request):
         return redirect('home')
 
 
-def userprofile(request):
-    pass
+def profile(request):
+    return render(request, "profile.html")

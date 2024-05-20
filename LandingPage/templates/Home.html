@@ -8,54 +8,55 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="bg-color-primary text-white">
-    <header class="sticky top-0 mt-3 z-50">
-        <nav class="container flex justify-between items-center">
-            <div class="py-5 text-color-secondary font-bold text-3xl">
-                <a href="/home">
-                    <span class="text-color-white">Vital </span><span class="text-color-secondary">Stats.</span>
-                </a>
-            </div>
-            <div class="hidden lg:flex items-center space-x-6">
-                <ul class="flex items-center space-x-6">
-                    <li><a href="#home" class="hover:text-color-secondary ease-in duration-200">Home</a></li>
-                    <li><a href="#features" class="hover:text-color-secondary ease-in duration-200">Features</a></li>
-                    <li><a href="#team" class="hover:text-color-secondary ease-in duration-200">Our Team</a></li>
-                    <li><a href="#contact" class="hover:text-color-secondary ease-in duration-200">Contact</a></li>
-                </ul>
-                <div class="relative">
-                    <img id="profile-img-desktop" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover h-12 w-12 shadow-md cursor-pointer" />
-                    <div id="profile-dropdown-desktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-black">
-                        <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-200">Profile</a>
-                        <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200">Logout</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile screen -->
-            <div id="hamburger" class="lg:hidden cursor-pointer z-50">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-
-            <div id="menu" class="hidden absolute inset-0 m-10 justify-center items-center lg:hidden">
-                <ul class="space-y-4 bg-slate-600 rounded-lg p-4">
-                    <li><a href="#home" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Home</a></li>
-                    <li><a href="#features" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Features</a></li>
-                    <li><a href="#team" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Our Team</a></li>
-                    <li><a href="#contact" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in">Contact</a></li>
-                    <li class="relative">
-                        <img id="profile-img-mobile" src="https://cdn.tuk.dev/assets/photo-1564061170517-d3907caa96ea.jfif" alt="Profile Picture" role="img" class="rounded-full object-cover h-12 w-12 shadow-md cursor-pointer" />
-                        <div id="profile-dropdown-mobile" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-black">
-                            <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-200">Profile</a>
-                            <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200">Logout</a>
+<header class="sticky top-0 z-50 mt-3">
+    <nav class="container flex justify-between items-center">
+        <div class="py-5 text-color-secondary font-bold text-3xl">
+            <a href="/">
+                <span class="text-color-white">Vital </span><span class="text-color-secondary">Stats.</span>
+            </a>
+        </div>
+        <div>
+            <ul class="hidden lg:flex items-center space-x-6">
+                <li><a href="#home" class=" hover:text-color-secondary ease-in duration-200">Home</a></li>
+                <li><a href="#features" class=" hover:text-color-secondary ease-in duration-200">Features</a></li>
+                <li><a href="#team" class="hover:text-color-secondary ease-in duration-200">Our Team</a></li>
+                <li><a href="#contact" class=" hover:text-color-secondary ease-in duration-200">Contact</a></li>
+                <li>
+                    <div class="relative">
+                        <img id="profile-img-desktop" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover w-16 h-16 shadow-md cursor-pointer" />
+                        <div id="profile-dropdown-desktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-black">
+                            <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200 ease-in hover:text-color-secondary rounded-full">Profile</a>
+                            <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200 ease-in hover:text-color-secondary rounded-full">Logout</a>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Mobile screen  -->
+        <div id="profile-img-mobile" class="lg:hidden cursor-pointer z-50">
+            <img src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover h-12 w-12 shadow-md cursor-pointer" />
+        </div>
+
+        <div id="menu" class="hidden absolute inset-0 m-10 justify-center items-center mt-10">
+            <div class="space-y-3 bg-slate-600 rounded-lg p-4">
+                <a href="#home" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg ">Home</a>
+                <a href="#features" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Features</a>
+                <a href="#team" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Our Team</a>
+                <a href="#contact" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Contact</a>
+                 <a href="{% url 'profile' %}" class="block hover:text-color-secondary px-4 py-2  transition duration-200 ease-in hover:bg-gray-200 hover:bg-gray-200 rounded-lg">Profile</a>
+                <a href="{% url 'user_logout' %}" class="block hover:text-color-secondary px-4 py-2  transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Logout</a>
+
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
+</header>
 
     <script src="{% static 'js/main.js' %}"></script>
     <script>
+        document.getElementById("profile-img-mobile").addEventListener("click", function() {
+        document.getElementById("menu").classList.toggle("hidden");
+    });
         document.getElementById('profile-img-desktop').addEventListener('click', function() {
             var dropdown = document.getElementById('profile-dropdown-desktop');
             dropdown.classList.toggle('hidden');
@@ -69,25 +70,6 @@
             }
         });
 
-        // Toggle mobile menu
-        document.getElementById('hamburger').addEventListener('click', function() {
-            var menu = document.getElementById('menu');
-            menu.classList.toggle('hidden');
-        });
-
-        // Toggle dropdown for mobile profile image
-        document.getElementById('profile-img-mobile').addEventListener('click', function() {
-            var dropdown = document.getElementById('profile-dropdown-mobile');
-            dropdown.classList.toggle('hidden');
-        });
-
-        // Close dropdown if clicked outside for mobile
-        window.addEventListener('click', function(e) {
-            var dropdown = document.getElementById('profile-dropdown-mobile');
-            if (!document.getElementById('profile-img-mobile').contains(e.target) && !document.getElementById('hamburger').contains(e.target)) {
-                dropdown.classList.add('hidden');
-            }
-        });
-    </script>
+        </script>
 </body>
 </html>

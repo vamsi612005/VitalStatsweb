@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 
@@ -16,18 +17,11 @@ class ContactUs(models.Model):
         return self.name
 
 
-class Register(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=100)
+class Register(AbstractUser):
     details = models.BooleanField(default=False)
 
     class Meta:
         db_table = "User_table"
-
-    def __str__(self):
-        return self.username
 
 
 class Profile(models.Model):
@@ -45,6 +39,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.username
-
-
-
