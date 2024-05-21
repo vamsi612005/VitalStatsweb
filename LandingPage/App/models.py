@@ -39,3 +39,11 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.username
+
+
+class Records(models.Model):
+    username=models.CharField(max_length=55,blank=False)
+    health_records=models.FileField(upload_to='records/')
+
+    def __str__(self):
+        return self.username

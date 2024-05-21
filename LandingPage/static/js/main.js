@@ -98,3 +98,4 @@ const element = document.getElementById('features');
 element.classList.add('animate__animated', 'animate__bounceOutLeft');
 
 
+
