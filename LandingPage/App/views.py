@@ -50,7 +50,7 @@ def create_user(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(password)
-        if not ( email and username and password):
+        if not (email and username and password):
             messages.error(request, 'All fields are required.')
             return redirect('register')
         else:
@@ -79,27 +79,22 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        request.session['username'] = username
+
         if not username or not password:
             messages.error(request, 'Username and password are required.')
             return redirect('login')
 
-        try:
-
-            user = authenticate(request, username=username, password=password)
-            request.session['username'] = username
-            print(user)
-            if user is not None :
-                login(request, user)
-                request.session['username'] = username
-                if user.details:
-                    return redirect('home')
-                else:
-                    return redirect('details')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            request.session['username'] = username  # Optionally store the username in session
+            # Check if user has additional details and redirect accordingly
+            if hasattr(user, 'details') and user.details:
+                messages.success(request, 'Login Successfully')
+                return redirect('home')
             else:
-                messages.error(request, 'Invalid username or password.')
-                return redirect('login')
-        except Register.DoesNotExist:
+                return redirect('details')
+        else:
             messages.error(request, 'Invalid username or password.')
             return redirect('login')
     else:
@@ -123,7 +118,9 @@ def home(request):
         # Handle case where user is not logged in
         return redirect('login')
 
+
 def user_logout(request):
+    messages.info(request,"Logout SuccessFully")
     request.session.flush()
     logout(request)
     return redirect('login')
@@ -162,7 +159,6 @@ def checkdetails(request):
         )
 
         if profile_image:
-            # Generate a unique filename using uuid
             unique_filename = str(uuid.uuid4())[:8] + profile_image.name
             user_profile.profile_image.save(unique_filename, profile_image, save=True)
 
@@ -171,8 +167,17 @@ def checkdetails(request):
         check = Register.objects.get(email=email)
         check.details = True
         check.save()
+
+        messages.success(request,"Profile Created SuccessFully ")
         return redirect('home')
+    else:
+        messages.info(request, "Profile not Created  ")
+        return redirect('login')
 
 
 def profile(request):
     return render(request, "profile.html")
+
+
+def upload(request):
+    return render(request, "upload.html")

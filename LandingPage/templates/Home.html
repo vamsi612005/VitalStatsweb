@@ -5,71 +5,235 @@
     <meta charset="UTF-8">
     {% tailwind_css %}
     <title>Home</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/uplod.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .carousel {
+            display: flex;
+            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .carousel-item {
+            flex: none;
+            width: 100%;
+            scroll-snap-align: center;
+        }
+        .carousel-container {
+            position: relative;
+        }
+        .carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ensures buttons only respond to clicks */
+}
+
+.carousel-button {
+    background-color: rgba(59, 130, 246, 0.75);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    pointer-events: all; /* Allows buttons to respond to clicks */
+    transition: background-color 0.3s ease;
+    margin: 0 30px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(37, 99, 235, 0.9);
+}
+
+    </style>
 </head>
 <body class="bg-color-primary text-white">
-<header class="sticky top-0 z-50 mt-3">
-    <nav class="container flex justify-between items-center">
-        <div class="py-5 text-color-secondary font-bold text-3xl">
-            <a href="/">
-                <span class="text-color-white">Vital </span><span class="text-color-secondary">Stats.</span>
+<header class="sticky top-0 z-50 mt-3 ">
+    <nav class="container mx-auto flex justify-between items-center py-4">
+        <div class="text-color-secondary font-bold text-3xl">
+            <a href="/" class="text-white">
+                <span>Vital </span><span class="text-color-secondary">Stats.</span>
             </a>
         </div>
-        <div>
-            <ul class="hidden lg:flex items-center space-x-6">
-                <li><a href="#home" class=" hover:text-color-secondary ease-in duration-200">Home</a></li>
-                <li><a href="#features" class=" hover:text-color-secondary ease-in duration-200">Features</a></li>
-                <li><a href="#team" class="hover:text-color-secondary ease-in duration-200">Our Team</a></li>
-                <li><a href="#contact" class=" hover:text-color-secondary ease-in duration-200">Contact</a></li>
-                <li>
-                    <div class="relative">
-                        <img id="profile-img-desktop" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover w-16 h-16 shadow-md cursor-pointer" />
-                        <div id="profile-dropdown-desktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-black">
-                            <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200 ease-in hover:text-color-secondary rounded-full">Profile</a>
-                            <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200 ease-in hover:text-color-secondary rounded-full">Logout</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+        <div class="hidden lg:flex items-center space-x-6">
+            <a href="{% url 'upload' %}" class="hover:text-blue-400 transition duration-200">Records</a>
+            <div class="relative">
+                <img id="profile-img-desktop" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover w-16 h-16 shadow-md cursor-pointer" />
+                <div id="profile-dropdown-desktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-black">
+                    <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200">Profile</a>
+                    <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200">Logout</a>
+                </div>
+            </div>
         </div>
 
         <!-- Mobile screen  -->
-        <div id="profile-img-mobile" class="lg:hidden cursor-pointer z-50">
-            <img src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover h-12 w-12 shadow-md cursor-pointer" />
+        <div class="lg:hidden flex items-center">
+            <img id="profile-img-mobile" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover w-10 h-10 shadow-md cursor-pointer" />
         </div>
-
-        <div id="menu" class="hidden absolute inset-0 m-10 justify-center items-center mt-10">
-            <div class="space-y-3 bg-slate-600 rounded-lg p-4">
-                <a href="#home" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg ">Home</a>
-                <a href="#features" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Features</a>
-                <a href="#team" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Our Team</a>
-                <a href="#contact" class="block py-2 px-4 hover:text-color-secondary transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Contact</a>
-                 <a href="{% url 'profile' %}" class="block hover:text-color-secondary px-4 py-2  transition duration-200 ease-in hover:bg-gray-200 hover:bg-gray-200 rounded-lg">Profile</a>
-                <a href="{% url 'user_logout' %}" class="block hover:text-color-secondary px-4 py-2  transition duration-200 ease-in hover:bg-gray-200 rounded-lg">Logout</a>
-
-            </div>
+        <div id="menu" class="hidden absolute top-16 right-0 bg-blue-800 rounded-lg shadow-lg py-2 w-48 z-50">
+            <a href="#home" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Home</a>
+            <a href="#features" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Features</a>
+            <a href="#team" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Our Team</a>
+            <a href="#contact" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Contact</a>
+            <a href="{% url 'profile' %}" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Profile</a>
+            <a href="{% url 'user_logout' %}" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Logout</a>
         </div>
     </nav>
 </header>
+<div class="relative w-auto h-auto">
+<main class="container absolute mx-auto p-6 z-1">
+    <div class="carousel-container relative mt-6">
+        <div id="carousel" class="carousel">
+            <div class="carousel-item bg-green-100 p-4   rounded-full shadow-sm text-center">
+                <h2 class="text-2xl font-semibold text-green-700">Stay Hydrated</h2>
+                <p class="text-gray-700">Drinking enough water is crucial for your overall health. Aim for at least 8 cups a day.</p>
+            </div>
+            <div class="carousel-item bg-yellow-100 p-4 rounded-full shadow-sm text-center">
+                <h2 class="text-2xl font-semibold text-yellow-700">Regular Exercise</h2>
+                <p class="text-gray-700">Engage in at least 30 minutes of moderate physical activity most days of the week.</p>
+            </div>
+            <div class="carousel-item bg-blue-100 p-4 rounded-full shadow-sm text-center">
+                <h2 class="text-2xl font-semibold text-blue-700">Balanced Diet</h2>
+                <p class="text-gray-700">Include a variety of foods in your diet, focusing on fruits, vegetables, whole grains, and lean proteins.</p>
+            </div>
+            <div class="carousel-item bg-red-100 p-4 rounded-full shadow-sm text-center">
+                <h2 class="text-2xl font-semibold text-red-700">Adequate Sleep</h2>
+                <p class="text-gray-700">Aim for 7-9 hours of quality sleep each night to support your health and well-being.</p>
+            </div>
+            <div class="carousel-item bg-purple-100 p-4 rounded-full shadow-sm text-center">
+                <h2 class="text-2xl font-semibold text-purple-700">Stress Management</h2>
+                <p class="text-gray-700">Practice relaxation techniques like meditation, yoga, or deep breathing exercises.</p>
+            </div>
+        </div>
+        <div class="carousel-controls ">
+    <button id="prev" class="carousel-button hidden  lg:inline-flex">
+        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+    <button id="next" class="carousel-button hidden lg:inline-flex">
+        <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+</div>
+    </div>
+      <div class="flex justify-center content-center mt-10">
+            <button class="btn upload-button"  id="upload-button">Upload HealthRecords</button>
+        </div>
+</main>
 
-    <script src="{% static 'js/main.js' %}"></script>
-    <script>
-        document.getElementById("profile-img-mobile").addEventListener("click", function() {
+    <div class="z-2 hidden  hidden-element">
+        <!-- File input with error -->
+        xzcn
+        <button id="cancel" class="cancel">Cancel</button>
+    </div>
+</div>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/upload.js' %}"></script>
+
+<script>
+    // Mobile menu toggle
+    document.getElementById("profile-img-mobile").addEventListener("click", function() {
         document.getElementById("menu").classList.toggle("hidden");
     });
-        document.getElementById('profile-img-desktop').addEventListener('click', function() {
-            var dropdown = document.getElementById('profile-dropdown-desktop');
-            dropdown.classList.toggle('hidden');
+
+    // Desktop profile dropdown toggle
+    document.getElementById('profile-img-desktop').addEventListener('click', function() {
+        var dropdown = document.getElementById('profile-dropdown-desktop');
+        dropdown.classList.toggle('hidden');
+    });
+
+    // Close desktop profile dropdown if clicked outside
+    window.addEventListener('click', function(e) {
+        var dropdown = document.getElementById('profile-dropdown-desktop');
+        if (!document.getElementById('profile-img-desktop').contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    // Carousel functionality
+    const carousel = document.getElementById('carousel');
+    const nextButton = document.getElementById('next');
+    const prevButton = document.getElementById('prev');
+
+    nextButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: carousel.clientWidth, behavior: 'smooth' });
+    });
+
+    prevButton.addEventListener('click', () => {
+        carousel.scrollBy({ left: -carousel.clientWidth, behavior: 'smooth' });
+    });
+
+    setInterval(() => {
+        if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth) {
+            carousel.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            carousel.scrollBy({ left: carousel.clientWidth, behavior: 'smooth' });
+        }
+    }, 3000);
+
+   document.addEventListener('DOMContentLoaded', () => {
+    const uploadButton = document.getElementById('upload-button');
+    const cancelButton = document.getElementById('cancel');
+    const hiddenElement = document.querySelector('.hidden-element'); // Changed to querySelector
+
+    if (uploadButton && cancelButton && hiddenElement) {
+        uploadButton.addEventListener('click', () => {
+            console.log('clicked');
+            hiddenElement.classList.remove('hidden');
+            hiddenElement.classList.add('visible');
+            uploadButton.classList.add('hidden');  // Hide the upload button
         });
 
-        // Close dropdown if clicked outside for desktop
-        window.addEventListener('click', function(e) {
-            var dropdown = document.getElementById('profile-dropdown-desktop');
-            if (!document.getElementById('profile-img-desktop').contains(e.target)) {
-                dropdown.classList.add('hidden');
+        cancelButton.addEventListener('click', () => {
+            hiddenElement.classList.remove('visible');
+            hiddenElement.classList.add('hidden');
+            uploadButton.classList.remove('hidden');  // Show the upload button again
+        });
+    } else {
+        console.error('Some elements were not found in the DOM');
+    }
+});
+
+
+
+</script>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+            toastr.options = {
+              "closeButton": true,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": true,
+              "positionClass": "toast-top-right",
+              "preventDuplicates": false,
+              "onclick": null,
+              "showDuration": "300",
+              "hideDuration": "1000",
+              "timeOut": "5000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
             }
+            {% if messages %}
+                {% for message in messages %}
+                    toastr["{{ message.tags }}"]("{{ message }}");
+                {% endfor %}
+            {% endif %}
         });
-
-        </script>
+</script>
 </body>
 </html>
