@@ -1,4 +1,6 @@
 import uuid
+
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from django.contrib.auth import authenticate, login, logout
@@ -7,7 +9,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import ContactUs, Register, Profile
+from .models import ContactUs, Register, Profile ,Records
 
 
 def Index(request):
@@ -120,7 +122,7 @@ def home(request):
 
 
 def user_logout(request):
-    messages.info(request,"Logout SuccessFully")
+    messages.info(request, "Logout SuccessFully")
     request.session.flush()
     logout(request)
     return redirect('login')
@@ -157,10 +159,12 @@ def checkdetails(request):
             country=country,
             postal_code=postalcode
         )
-
         if profile_image:
             unique_filename = str(uuid.uuid4())[:8] + profile_image.name
             user_profile.profile_image.save(unique_filename, profile_image, save=True)
+        else:
+            messages.info(request, "Upload Profile Picture")
+            redirect('profile')
 
         user_profile.save()
 
@@ -168,7 +172,7 @@ def checkdetails(request):
         check.details = True
         check.save()
 
-        messages.success(request,"Profile Created SuccessFully ")
+        messages.success(request, "Profile Created SuccessFully ")
         return redirect('home')
     else:
         messages.info(request, "Profile not Created  ")
@@ -181,3 +185,31 @@ def profile(request):
 
 def upload(request):
     return render(request, "upload.html")
+
+
+def checkupload(request):
+    if request.method == "POST":
+        username = request.session.get('username')
+        file = request.FILES.get('file_name')
+
+        if not file:
+            messages.error(request, "No file uploaded")
+            return redirect('home')
+
+        valid_image_types = ['image/jpeg', 'image/png', 'image/gif']
+        if file.content_type not in valid_image_types:
+            messages.error(request, "Please upload a valid image file (JPEG, PNG, GIF).")
+            return redirect('home')
+
+        record = Records(username=username)
+        try:
+            unique_filename = str(uuid.uuid4())[:8] + "_" + file.name
+            record.health_records.save(unique_filename, file, save=True)
+            record.save()
+            messages.success(request, "File uploaded successfully")
+        except ValidationError as e:
+            messages.error(request, f"Error: {str(e)}")
+        except Exception as e:
+            messages.error(request, "An error occurred while uploading the file")
+
+        return redirect('home')

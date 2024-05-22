@@ -8,50 +8,8 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/uplod.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .carousel {
-            display: flex;
-            overflow-x: hidden;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-        }
-        .carousel-item {
-            flex: none;
-            width: 100%;
-            scroll-snap-align: center;
-        }
-        .carousel-container {
-            position: relative;
-        }
-        .carousel-controls {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(-50%);
-    pointer-events: none; /* Ensures buttons only respond to clicks */
-}
-
-.carousel-button {
-    background-color: rgba(59, 130, 246, 0.75);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    padding: 10px;
-    cursor: pointer;
-    pointer-events: all; /* Allows buttons to respond to clicks */
-    transition: background-color 0.3s ease;
-    margin: 0 30px;
-}
-
-.carousel-button:hover {
-    background-color: rgba(37, 99, 235, 0.9);
-}
-
-    </style>
 </head>
 <body class="bg-color-primary text-white">
 <header class="sticky top-0 z-50 mt-3 ">
@@ -125,15 +83,32 @@
 </div>
     </div>
       <div class="flex justify-center content-center mt-10">
-            <button class="btn upload-button"  id="upload-button">Upload HealthRecords</button>
+            <button class="btn upload-button" onclick="show_upload()"  id="upload-button"> Upload HealthRecords</button>
         </div>
 </main>
 
-    <div class="z-2 hidden  hidden-element">
-        <!-- File input with error -->
-        xzcn
-        <button id="cancel" class="cancel">Cancel</button>
+   <div class="z-2 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden hidden-element">
+    <!-- Modal content -->
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-4 md:mx-0 md:w-2/3 lg:w-1/2 p-6 relative">
+        <div class="flex justify-center mb-4">
+            <h3 class="text-color-secondary text-center text-2xl">Upload Health Record</h3>
+        </div>
+        <button  onclick="hide_upload()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none cancel" id="cancel" aria-label="Close">
+            <i class="fa fa-close" style="font-size:24px"></i>
+        </button>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'checkupload' %}">
+            {% csrf_token %}
+            <div class="mb-6">
+                <input type="file" name="file_name" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
+            </div>
+            <div class="flex justify-center">
+                <button id="upload" class="btn bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-700"><i class="fa fa-upload text-xl" aria-hidden="true"></i></button>
+            </div>
+        </form>
+
     </div>
+</div>
+
 </div>
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/upload.js' %}"></script>
@@ -179,31 +154,22 @@
         }
     }, 3000);
 
-   document.addEventListener('DOMContentLoaded', () => {
-    const uploadButton = document.getElementById('upload-button');
-    const cancelButton = document.getElementById('cancel');
-    const hiddenElement = document.querySelector('.hidden-element'); // Changed to querySelector
-
-    if (uploadButton && cancelButton && hiddenElement) {
-        uploadButton.addEventListener('click', () => {
-            console.log('clicked');
+         function show_upload() {
+            const uploadButton = document.getElementById('upload-button');
+            const hiddenElement = document.querySelector('.hidden-element');
+            console.log('Upload button clicked');
             hiddenElement.classList.remove('hidden');
             hiddenElement.classList.add('visible');
             uploadButton.classList.add('hidden');  // Hide the upload button
-        });
+        }
 
-        cancelButton.addEventListener('click', () => {
+        function hide_upload() {
+            const uploadButton = document.getElementById('upload-button');
+            const hiddenElement = document.querySelector('.hidden-element');
             hiddenElement.classList.remove('visible');
             hiddenElement.classList.add('hidden');
             uploadButton.classList.remove('hidden');  // Show the upload button again
-        });
-    } else {
-        console.error('Some elements were not found in the DOM');
-    }
-});
-
-
-
+        }
 </script>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -234,6 +200,23 @@
                 {% endfor %}
             {% endif %}
         });
+    document.querySelector('form').addEventListener('submit', function(event) {
+    const fileInput = document.querySelector('input[name="file_name"]');
+    const file = fileInput.files[0];
+
+    if (!file) {
+
+         toastr["error"]("Please select a file to upload.");
+        event.preventDefault();  // Prevent form submission
+        return;
+    }
+
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validImageTypes.includes(file.type)) {
+        alert('Please upload a valid image file (JPEG, PNG, GIF).');
+        event.preventDefault();  // Prevent form submission
+    }
+});
 </script>
 </body>
 </html>
