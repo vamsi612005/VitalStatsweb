@@ -1,0 +1,39 @@
+    .carousel {
+            display: flex;
+            overflow-x: hidden;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        .carousel-item {
+            flex: none;
+            width: 100%;
+            scroll-snap-align: center;
+        }
+        .carousel-container {
+            position: relative;
+        }
+        .carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ensures buttons only respond to clicks */
+}
+
+.carousel-button {
+    background-color: rgba(59, 130, 246, 0.75);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    pointer-events: all; /* Allows buttons to respond to clicks */
+    transition: background-color 0.3s ease;
+    margin: 0 30px;
+}
+
+.carousel-button:hover {
+    background-color: rgba(37, 99, 235, 0.9);
+}

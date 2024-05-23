@@ -14,7 +14,8 @@ urlpatterns = [
     path('home/', views.home, name="home"),
     path('user_logout', views.user_logout, name="user_logout"),
     path('details', views.details, name="details"),
-    path('profile',views.profile,name="profile"),
+    path('profile', views.profile, name="profile"),
     path('checkdetails', views.checkdetails, name="checkdetails"),
-    path('upload', views.upload, name="upload"),
+    path('showrecords', views.showrecords, name="showrecords"),
+    path('checkupload', views.checkupload, name="checkupload"),
 ]

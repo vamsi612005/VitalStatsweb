@@ -85,22 +85,22 @@ WSGI_APPLICATION = 'LandingPage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'VitalStats',
-        'USER': 'root',
-        'PASSWORD': 'Lalitesh@2004',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'VitalStats',
+#         'USER': 'root',
+#         'PASSWORD': 'Lalitesh@2004',
+#         'HOST': 'localhost',
+#         'PORT': '5433',
+#     }
+# }
 
 AUTH_USER_MODEL = 'App.Register'
 

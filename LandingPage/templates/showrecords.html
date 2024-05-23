@@ -1,0 +1,67 @@
+{% extends 'Home.html' %}
+{% load static tailwind_tags %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Upload{% endblock %}</title>
+    {% tailwind_css %}
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+</head>
+{% block content %}
+<body>
+<div class="flex justify-center mt-10">
+    <table class="min-w-full bg-white">
+        <thead class="bg-color-gray text-color-secondary">
+            <tr>
+                <th class="w-1/12 px-4 py-2">#</th>
+                <th class="w-3/12 px-4 py-2">UserName</th>
+                <th class="w-3/12 px-4 py-2">Records</th>
+                <th class="w-3/12 px-4 py-2">Uploaded Time</th>
+            </tr>
+        </thead>
+        <tbody class="text-black">
+            {% for record in records %}
+            <tr class="{% cycle 'bg-gray-300' 'bg-gray-100' %} ">
+                <td class="border px-4 py-2">{{ forloop.counter }}</td>
+                <td class="border px-4 py-2">{{ record.username }}</td>
+                <td class="border px-4 py-2">{{ record.uploadtime }}</td>
+                 <td class="border px-4 py-2 text-center">
+                    <a href="#" onclick="openModal('{{ record.health_records.url }}')">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="fixed inset-0  hidden flex items-center justify-center" onclick="closeModal()">
+    <div class="p-4 rounded  relative max-w-screen-lg w-full" >
+        <i class="fa fa-times absolute top-2 right-2 text-white m-4  text-xl cursor-pointer" aria-hidden="true" onclick="closeModal()"></i>
+        <img id="modalImage" src="" alt="Record Image" class="max-w-full h-1/2 p-4">
+    </div>
+</div>
+
+<script>
+    function openModal(imageSrc) {
+        console.log(imageSrc);
+        document.getElementById('modalImage').src = imageSrc;
+        document.getElementById('myModal').classList.remove('hidden');
+        document.getElementById('myModal').classList.add('flex');
+    }
+
+    function closeModal() {
+        document.getElementById('myModal').classList.add('hidden');
+        document.getElementById('myModal').classList.remove('flex');
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        window.openModal = openModal;
+        window.closeModal = closeModal;
+    });
+</script>
+</body>
+{% endblock %}
+</html>
