@@ -9,7 +9,7 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import ContactUs, Register, Profile ,Records
+from .models import ContactUs, Register, Profile, Records
 
 
 def Index(request):
@@ -183,8 +183,24 @@ def profile(request):
     return render(request, "profile.html")
 
 
-def upload(request):
-    return render(request, "upload.html")
+def showrecords(request):
+    if request.user.is_authenticated:
+        username = request.session.get('username')
+        try:
+            user_profile = Profile.objects.get(username=username)
+            profile_image = user_profile.profile_image if user_profile.profile_image else None
+            records = Records.objects.filter(username=username)  # Get all records for the user
+            return render(request, "showrecords.html", {"img": profile_image, "records": records})
+        except Profile.DoesNotExist:
+            messages.error(request, 'Profile not found.')
+            return redirect('home')
+        except Records.DoesNotExist:
+            messages.error(request, 'No records found.')
+            return redirect('home')
+    else:
+        messages.error(request, 'Login again.')
+        return redirect('login')
+
 
 
 def checkupload(request):

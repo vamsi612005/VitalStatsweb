@@ -1,4 +1,4 @@
-d;;;;/**
+/**
  * This is a minimal config.
  *
  * If you need the full config, get it from here:

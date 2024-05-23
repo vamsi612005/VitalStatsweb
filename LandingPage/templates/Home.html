@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {% tailwind_css %}
-    <title>Home</title>
+    <title>{% block title%} Home {% endblock %}</title>
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
@@ -15,17 +15,18 @@
 <header class="sticky top-0 z-50 mt-3 ">
     <nav class="container mx-auto flex justify-between items-center py-4">
         <div class="text-color-secondary font-bold text-3xl">
-            <a href="/" class="text-white">
+            <a href="/home" class="text-white">
                 <span>Vital </span><span class="text-color-secondary">Stats.</span>
             </a>
         </div>
         <div class="hidden lg:flex items-center space-x-6">
-            <a href="{% url 'upload' %}" class="hover:text-blue-400 transition duration-200">Records</a>
+            <a href="{% url 'home' %}" class="hover:text-color-secondary transition duration-200">Home</a>
+            <a href="{% url 'showrecords' %}" class="hover:text-color-secondary transition duration-200">Health Records</a>
             <div class="relative">
                 <img id="profile-img-desktop" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover w-16 h-16 shadow-md cursor-pointer" />
                 <div id="profile-dropdown-desktop" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 text-black">
-                    <a href="{% url 'profile' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200">Profile</a>
-                    <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200">Logout</a>
+                    <a href="{% url 'profile' %}" class="block px-4  py-2 hover:bg-gray-200 transition duration-200 hover:text-color-secondary ">Profile</a>
+                    <a href="{% url 'user_logout' %}" class="block px-4 py-2 hover:bg-gray-200 transition duration-200 hover:text-color-secondary">Logout</a>
                 </div>
             </div>
         </div>
@@ -34,17 +35,16 @@
         <div class="lg:hidden flex items-center">
             <img id="profile-img-mobile" src="{{ MEDIA_URL }}{{ img }}" alt="Profile Picture" role="img" class="rounded-full object-cover w-10 h-10 shadow-md cursor-pointer" />
         </div>
-        <div id="menu" class="hidden absolute top-16 right-0 bg-blue-800 rounded-lg shadow-lg py-2 w-48 z-50">
-            <a href="#home" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Home</a>
-            <a href="#features" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Features</a>
-            <a href="#team" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Our Team</a>
-            <a href="#contact" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Contact</a>
-            <a href="{% url 'profile' %}" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Profile</a>
-            <a href="{% url 'user_logout' %}" class="block py-2 px-4 text-white hover:text-blue-400 transition duration-200">Logout</a>
+        <div id="menu" class="hidden absolute top-16 right-7  bg-white text-black rounded-lg shadow-lg py-2 w-48 z-50">
+            <a href="{% url 'home' %}" class=" block py-2  px-4 hover:text-color-secondary transition duration-200">Home</a>
+            <a href="{% url 'showrecords' %}" class=" block py-2  px-4 hover:text-color-secondary transition duration-200">Health Records</a>
+            <a href="{% url 'profile' %}" class="block py-2 px-4 hover:bg-gray-200 hover:text-color-secondary transition duration-200">Profile</a>
+            <a href="{% url 'user_logout' %}" class="block py-2 px-4 hover:bg-gray-200 hover:text-color-secondary transition duration-200">Logout</a>
         </div>
     </nav>
 </header>
-<div class="relative w-auto h-auto">
+{% block content %}
+    <div class="relative w-auto h-auto">
 <main class="container absolute mx-auto p-6 z-1">
     <div class="carousel-container relative mt-6">
         <div id="carousel" class="carousel">
@@ -110,6 +110,9 @@
 </div>
 
 </div>
+
+
+{% endblock %}
 <script src="{% static 'js/main.js' %}"></script>
 <script src="{% static 'js/upload.js' %}"></script>
 

@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
@@ -44,6 +46,7 @@ class Profile(models.Model):
 class Records(models.Model):
     username = models.CharField(max_length=55, blank=False)
     health_records = models.FileField(upload_to='records/')
+    uploadtime = models.DateField(default=datetime.date.today)
 
     def __str__(self):
         return self.username
