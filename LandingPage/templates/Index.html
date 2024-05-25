@@ -7,6 +7,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vital Stats</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      {% tailwind_css %}
     <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"  />
@@ -271,9 +273,9 @@
                     {%  csrf_token %}
                     <div class="w-full m-auto text-center md:w-2/3">
                         <div class="text-color-primary-dark grid gap-6 mb-6 md:grid-cols-2">
-                            <input name="name" required type="text" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Name">
-                            <input name="email" required type="email" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Email">
-                            <input name="phonenumber" required type="tel" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Phone">
+                            <input name="name" required type="text" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Name" />
+                            <input name="email" required type="email" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Email"/>
+                            <input name="phonenumber" required type="tel" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Phone" />
                             <input  name="company" required type="text" class="bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Company">
                         </div>
                         <textarea name="message" required rows="4" class="text-color-primary-dark bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full p-3 focus:outline-none focus:border-color-secondary" placeholder="Message"></textarea>
@@ -283,8 +285,8 @@
             </div>
         </section>
 
-        <section id="footer ">
-            <div class="container py-6">
+        <section id="footer">
+            <div class="py-6">
                 <div class="flex justify-center items-center gap-6 pb-4">
                     <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>
@@ -297,12 +299,33 @@
             </div>
         </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>document.addEventListener("DOMContentLoaded", function(event) {
+            toastr.options = {
+              "closeButton": true,
+              "debug": false,
+              "newestOnTop": false,
+              "progressBar": true,
+              "positionClass": "toast-top-right",
+              "preventDuplicates": false,
+              "onclick": null,
+              "showDuration": "300",
+              "hideDuration": "1000",
+              "timeOut": "5000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+            }
+            {% if messages %}
+                {% for message in messages %}
+                    toastr["{{ message.tags }}"]("{{ message }}");
+                {% endfor %}
+            {% endif %}
+        });
 
-    {% if messages %}
-        {% for message in messages %}
-            <script> alert('{{ message }}') </script>
-        {% endfor %}
-    {% endif %}
+    </script>
     <script type="text/javascript" src="{% static 'js/main.js'%}" ></script>
 </body>
 </html>

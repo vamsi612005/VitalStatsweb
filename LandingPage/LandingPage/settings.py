@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os.path
 from pathlib import Path
 
+import cloudinary.api
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,11 +26,13 @@ SECRET_KEY = 'django-insecure-^=x&uk$5amkf+96fjw^hd60=0#)+wm9j_n%s+)s8!ky2+4io)y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    "semantic_admin",
+    "semantic_forms",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,7 +42,10 @@ INSTALLED_APPS = [
     'tailwind',
     'tailwind_css',
     'django_browser_reload',
-    'App'
+    'App',
+    'cloudinary',
+    'cloudinary_storage',
+
 ]
 
 TAILWIND_APP_NAME = 'tailwind_css'
@@ -152,3 +159,11 @@ SESSION_IDLE_TIMEOUT = 1600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
+# Cloudinary configuration
+cloudinary.config(
+    cloud_name="dv13ixezd",
+    api_key="344296151723785",
+    api_secret="yv2fOtqGrU8EKq8VYpvaZG5s46U",
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

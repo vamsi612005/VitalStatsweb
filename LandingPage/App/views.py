@@ -1,15 +1,18 @@
-import uuid
+from io import BytesIO
 
+import requests
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.utils import timezone
-
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.hashers import make_password, check_password
-from django.db.models import Q
+from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
-from .models import ContactUs, Register, Profile, Records
+from django.views.decorators.csrf import csrf_exempt
+
+from .models import ContactUs, Register, Records, Profile
+import PIL.Image as Image
+import google.generativeai as genai
 
 
 def Index(request):
@@ -46,6 +49,7 @@ def register(request):
     return render(request, "Register.html")
 
 
+@csrf_exempt
 def create_user(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -77,6 +81,7 @@ def create_user(request):
     return redirect('register')
 
 
+@csrf_exempt
 def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -104,23 +109,20 @@ def user_login(request):
         return redirect('login')
 
 
+@csrf_exempt
+@login_required(login_url='/login')
 def home(request):
-    if request.user.is_authenticated:
-        username = request.session.get('username')
-        try:
-            user_profile = Profile.objects.get(username=username)
-            profile_image = user_profile.profile_image if user_profile.profile_image else None
-            print(profile_image)
-            return render(request, "Home.html", {"img": profile_image})
-        except Profile.DoesNotExist:
-            # Handle case where profile does not exist
-            profile_image = None
-            return render(request, "Home.html", {"img": profile_image})
-    else:
-        # Handle case where user is not logged in
-        return redirect('login')
+    try:
+        user_profile = Profile.objects.get(username=request.user.username)
+        profile_image = user_profile.profile_image if user_profile.profile_image else None
+        return render(request, "Home.html", {"profile_image": profile_image})
+    except Profile.DoesNotExist:
+        # Handle case where profile does not exist
+        profile_image = None
+        return render(request, "Home.html", {"profile_image": profile_image})
 
 
+@login_required(login_url='/login')
 def user_logout(request):
     messages.info(request, "Logout SuccessFully")
     request.session.flush()
@@ -128,12 +130,16 @@ def user_logout(request):
     return redirect('login')
 
 
+@csrf_exempt
+@login_required(login_url='/login')
 def details(request):
     username = request.user.username
     data = Register.objects.filter(username=username).first()
     return render(request, "userdetails.html", {'user': data})
 
 
+@csrf_exempt
+@login_required(login_url='/login')
 def checkdetails(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -141,12 +147,13 @@ def checkdetails(request):
         full_name = request.POST.get('name')
         phone_number = request.POST.get('phonenumber')
         nominee_name = request.POST.get('nomineename')
-        nominee_phone_number = request.POST.get('nomineename')
+        nominee_phone_number = request.POST.get('nomineephone')
         address = request.POST.get('address')
         city = request.POST.get('city')
         country = request.POST.get('country')
         postalcode = request.POST.get('postalcode')
         profile_image = request.FILES.get('profile_image')
+
         user_profile = Profile(
             username=username,
             email=email,
@@ -157,25 +164,23 @@ def checkdetails(request):
             address=address,
             city=city,
             country=country,
-            postal_code=postalcode
+            postal_code=postalcode,
+            profile_image=profile_image
         )
+
         if profile_image:
-            unique_filename = str(uuid.uuid4())[:8] + profile_image.name
-            user_profile.profile_image.save(unique_filename, profile_image, save=True)
+            user_profile.save()
+            check = Register.objects.get(email=email)
+            check.details = True
+            check.save()
+            messages.success(request, "Profile Created Successfully")
+            return redirect('home')
         else:
-            messages.info(request, "Upload Profile Picture")
-            redirect('profile')
+            messages.info(request, "Please upload a profile picture")
+            return redirect('profile')
 
-        user_profile.save()
-
-        check = Register.objects.get(email=email)
-        check.details = True
-        check.save()
-
-        messages.success(request, "Profile Created SuccessFully ")
-        return redirect('home')
     else:
-        messages.info(request, "Profile not Created  ")
+        messages.info(request, "Profile not created")
         return redirect('login')
 
 
@@ -183,14 +188,16 @@ def profile(request):
     return render(request, "profile.html")
 
 
+@csrf_exempt
+@login_required(login_url='/login')
 def showrecords(request):
     if request.user.is_authenticated:
         username = request.session.get('username')
         try:
             user_profile = Profile.objects.get(username=username)
             profile_image = user_profile.profile_image if user_profile.profile_image else None
-            records = Records.objects.filter(username=username)  # Get all records for the user
-            return render(request, "showrecords.html", {"img": profile_image, "records": records})
+            records = Records.objects.filter(username=username)
+            return render(request, "showrecords.html", {"profile_image": profile_image, "records": records})
         except Profile.DoesNotExist:
             messages.error(request, 'Profile not found.')
             return redirect('home')
@@ -202,7 +209,8 @@ def showrecords(request):
         return redirect('login')
 
 
-
+@csrf_exempt
+@login_required(login_url='/login')
 def checkupload(request):
     if request.method == "POST":
         username = request.session.get('username')
@@ -217,15 +225,72 @@ def checkupload(request):
             messages.error(request, "Please upload a valid image file (JPEG, PNG, GIF).")
             return redirect('home')
 
-        record = Records(username=username)
         try:
-            unique_filename = str(uuid.uuid4())[:8] + "_" + file.name
-            record.health_records.save(unique_filename, file, save=True)
-            record.save()
-            messages.success(request, "File uploaded successfully")
-        except ValidationError as e:
-            messages.error(request, f"Error: {str(e)}")
+            genai.configure(api_key="AIzaSyBJ8M6eulmKHsYh0o4GP32Ecjcqvsob0gY")
+            img = Image.open(file)
+            model = genai.GenerativeModel('gemini-pro-vision')
+            prompt = "Is it medical data? Yes or No:"
+            response_with_prompt = model.generate_content([prompt, img])
+            if "yes" in response_with_prompt.text.strip().lower():
+
+                try:
+                    record = Records(username=username, health_records=file)
+                    record.save()
+                    messages.success(request, "File uploaded successfully")
+                except ValidationError as e:
+                    messages.error(request, f"Error: {str(e)}")
+                except Exception as e:
+                    messages.error(request, "An error occurred while uploading the file")
+            else:
+                messages.info(request, "Upload medical data only")
         except Exception as e:
-            messages.error(request, "An error occurred while uploading the file")
+            messages.error(request, f"An error occurred: {str(e)}")
 
         return redirect('home')
+
+    messages.error(request, "Invalid request method")
+    return redirect('home')
+
+
+@csrf_exempt
+@login_required(login_url='/login')
+def report(request, id):
+    try:
+        record = get_object_or_404(Records, id=id)
+        img_url = record.health_records.url
+        response = requests.get(img_url)
+        img = Image.open(BytesIO(response.content))
+        genai.configure(api_key="AIzaSyBJ8M6eulmKHsYh0o4GP32Ecjcqvsob0gY")
+        model = genai.GenerativeModel('gemini-pro-vision')
+        promt = (
+            "Please describe  in detail, including its purpose, steps involved, potential risks, and expected outcomes.")
+        response = model.generate_content([promt, img])
+        generated_text = response.text
+        username = request.session.get('username')
+        user_profile = Profile.objects.get(username=username)
+        profile_image = user_profile.profile_image if user_profile.profile_image else None
+        records = Records.objects.filter(username=username)
+        return render(request, "showrecords.html",
+                      {"profile_image": profile_image, "records": records, "res": generated_text})
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return redirect('home')
+
+
+def forgetpassword(request):
+    return render(request, "forgetpassword.html")
+
+
+def checkforgot(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+
+        try:
+            check = Register.objects.get(username=username)
+            return HttpResponse('Username there')
+        except Register.DoesNotExist:
+            messages.error(request, "Username does not exist")
+            return redirect('forgetpassword')
+    else:
+        return HttpResponse("Invalid request method", status=405)
