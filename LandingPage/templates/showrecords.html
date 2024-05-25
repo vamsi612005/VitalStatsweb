@@ -10,39 +10,55 @@
     <link rel="stylesheet" href="{% static 'css/upload.css' %}">
 </head>
 {% block content %}
-<body>
-<div class="flex justify-center mt-10">
-    <table class="min-w-full bg-white">
-        <thead class="bg-color-gray text-color-secondary">
-            <tr>
-                <th class="w-1/12 px-4 py-2">#</th>
-                <th class="w-3/12 px-4 py-2">UserName</th>
-                <th class="w-3/12 px-4 py-2">Records</th>
-                <th class="w-3/12 px-4 py-2">Uploaded Time</th>
-            </tr>
-        </thead>
-        <tbody class="text-black">
-            {% for record in records %}
-            <tr class="{% cycle 'bg-gray-300' 'bg-gray-100' %} ">
-                <td class="border px-4 py-2">{{ forloop.counter }}</td>
-                <td class="border px-4 py-2">{{ record.username }}</td>
-                <td class="border px-4 py-2">{{ record.uploadtime }}</td>
-                 <td class="border px-4 py-2 text-center">
-                    <a href="#" onclick="openModal('{{ record.health_records.url }}')">View</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<body class="bg-gray-100">
+<div class="mx-4 mt-10 flex justify-center">
+    <div class="w-full lg:w-3/4 xl:w-1/2">
+        <table class="w-full bg-white rounded-lg overflow-hidden shadow-lg">
+            <thead class="bg-blue-200 text-color-secondary">
+                <tr>
+                    <th class="w-1/12 px-2 py-2">#</th>
+                    <th class="w-3/12 px-2 py-2">UserName</th>
+                    <th class="w-3/12 px-2 py-2">Uploaded Time</th>
+                    <th class="w-2/12 px-2 py-2">Records</th>
+                    <th class="w-2/12 px-2 py-2">Report</th>
+                </tr>
+            </thead>
+            <tbody class="text-black">
+                {% for record in records %}
+                <tr class="{% cycle 'bg-gray-300' 'bg-gray-100' %}">
+                    <td class="border px-2 py-2">{{ forloop.counter }}</td>
+                    <td class="border px-2 py-2">{{ record.username }}</td>
+                    <td class="border px-2 py-2">{{ record.uploadtime }}</td>
+                    <td class="border px-2 py-2 text-center">
+                        <a href="#" class="hover:text-color-secondary font-semibold" onclick="openModal('{{ record.health_records.url }}')">View</a>
+                    </td>
+                    <td class="border px-2 py-2 text-center">
+                        <a href="{% url 'report' record.id %}" class="hover:text-color-secondary font-semibold">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <!-- Modal -->
-<div id="myModal" class="fixed inset-0  hidden flex items-center justify-center" onclick="closeModal()">
-    <div class="p-4 rounded  relative max-w-screen-lg w-full" >
-        <i class="fa fa-times absolute top-2 right-2 text-white m-4  text-xl cursor-pointer" aria-hidden="true" onclick="closeModal()"></i>
-        <img id="modalImage" src="" alt="Record Image" class="max-w-full h-1/2 p-4">
+<div id="myModal" class="fixed inset-0 hidden flex items-center justify-center bg-black bg-opacity-50" onclick="closeModal()">
+    <div class="p-4 rounded bg-white relative max-w-md w-full">
+        <i class="fa fa-times absolute top-2 right-2 text-gray-700 m-4 text-xl cursor-pointer" aria-hidden="true" onclick="closeModal()"></i>
+        <img id="modalImage" src="" alt="Record Image" class="max-w-full p-4">
     </div>
 </div>
+
+<!-- Text Modal -->
+{% if res %}
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onclick="closeTextModal()">
+    <div class="p-4 rounded bg-white relative max-w-md w-full" id="modalText">
+        <i class="fa fa-times absolute top-2 right-2 text-gray-700 m-4 text-xl cursor-pointer" aria-hidden="true" onclick="closeTextModal()"></i>
+        <p class="mt-5">{{ res }}</p>
+    </div>
+</div>
+{% endif %}
 
 <script>
     function openModal(imageSrc) {
@@ -57,9 +73,19 @@
         document.getElementById('myModal').classList.remove('flex');
     }
 
+    function openTextModal() {
+        document.getElementById('modalText').classList.remove('hidden');
+    }
+
+    function closeTextModal() {
+        document.getElementById('modalText').classList.add('hidden');
+    }
+
     document.addEventListener('DOMContentLoaded', (event) => {
         window.openModal = openModal;
         window.closeModal = closeModal;
+        window.openTextModal = openTextModal;
+        window.closeTextModal = closeTextModal;
     });
 </script>
 </body>

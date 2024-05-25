@@ -1,7 +1,8 @@
 import datetime
 
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class ContactUs(models.Model):
@@ -37,15 +38,16 @@ class Profile(models.Model):
     city = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
     postal_code = models.CharField(max_length=20, blank=True, null=True)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    profile_image = CloudinaryField('image')
 
     def __str__(self):
         return self.username
 
 
 class Records(models.Model):
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=55, blank=False)
-    health_records = models.FileField(upload_to='records/')
+    health_records = CloudinaryField('image')
     uploadtime = models.DateField(default=datetime.date.today)
 
     def __str__(self):
