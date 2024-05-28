@@ -4,14 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vital Stats</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css" integrity="sha512-oe8OpYjBaDWPt2VmSFR+qYOdnTjeV9QPLJUeqZyprDEQvQLJ9C5PCFclxwNuvb/GQgQngdCXzKSFltuHD3eCxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      {% tailwind_css %}
-    <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"  />
 </head>
 <body class="bg-color-primary text-white">
     <header class="sticky top-0 z-50">
@@ -51,29 +50,29 @@
     </header>
 
     <main>
-        <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0 fade-in-background"  style="background-image: url('{% static 'images/hero.jpeg' %}')"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-cover bg-center z-0 "  style="background-image: url('{% static 'images/hero.jpeg' %}')"></div>
         <section id="home" class="relative w-full h-screen text-color-secondary">
           <div class="container py-20 relative z-10">
             <div class="flex flex-col items-center md:flex-row">
-              <div class="md:w-4/6 md:mx-32">
-                <h1 class="max-w-md text-4xl font-bold text-center my-6 md:text-5xl md:text-left  slide-in-from-left">Revolutionize Healthcare with Seamless Patient Data Management</h1>
+              <div class="md:w-4/6 md:mx-32" data-aos="fade-up">
+                <h1 class="max-w-md text-4xl font-bold text-center my-6 md:text-5xl md:text-left ">Revolutionize Healthcare with Seamless Patient Data Management</h1>
                 <div class="py-10">
-                    <p class="text-lg leading-relaxed my-2 gap-3 text-color-blob md:text-left animate-slide-right">Welcome to the forefront of healthcare innovation! Our revolutionary platform is poised to transform the way patient data is managed, paving the way for seamless, efficient, and secure healthcare experiences.</p>
+                    <p class="text-lg leading-relaxed my-2 gap-3 text-color-blob md:text-left">Welcome to the forefront of healthcare innovation! Our revolutionary platform is poised to transform the way patient data is managed, paving the way for seamless, efficient, and secure healthcare experiences.</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-    <section id="features" class="bg-color-primary-light mb-4 animate__animated animate__fadeInTop">
+    <section id="features" class="bg-color-primary-light mb-4" data-aos="zoom-in">
     <div class="container py-20 ">
-      <div class="text-center m-auto mb-20 md:w-1/2">
+      <div class="text-center m-auto mb-20 md:w-1/2" data-aos="fade-left" >
         <h4 class="font-bold text-color-secondary mb-4">Our Features</h4>
         <h1 class="title">Empowering Your Healthcare Journey</h1>
       </div>
-      <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-12 lg:gap-8 px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-12 lg:gap-8 px-4 sm:px-6 lg:px-8" >
         <!-- Data Storage and Fast Retrieval -->
-        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 fade-in-up">
+        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 " data-aos="flip-left">
           <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
             <i class="fa-solid fa-database text-4xl"></i>
           </div>
@@ -82,7 +81,7 @@
         </div>
 
         <!-- Report Generation -->
-        <div class="bg-color-primary-dark  hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer fade-in-up">
+        <div class="bg-color-primary-dark  hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer" data-aos="flip-right">
           <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
             <i class="fa-solid fa-file-alt text-4xl"></i>
           </div>
@@ -91,7 +90,7 @@
         </div>
 
         <!-- Data Splitting -->
-        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 fade-in-up">
+        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200" data-aos="flip-left">
           <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
             <i class="fa-solid fa-folder-split text-4xl"></i>
           </div>
@@ -100,7 +99,7 @@
         </div>
 
         <!-- Medical Data Analysis -->
-        <div class="bg-color-primary-dark hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer fade-in-up">
+        <div class="bg-color-primary-dark hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer " data-aos="flip-right">
           <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
             <i class="fa-solid fa-chart-line text-4xl"></i>
           </div>
@@ -109,7 +108,7 @@
         </div>
 
         <!-- Health Suggestions -->
-        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 fade-in-up">
+        <div class="border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer hover:bg-color-primary-dark ease-in duration-200 " data-aos="flip-left">
           <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
             <i class="fa-solid fa-heartbeat text-4xl"></i>
           </div>
@@ -118,7 +117,7 @@
         </div>
 
         <!-- Nearby Hospital & Pharmacy -->
-        <div class="bg-color-primary-dark  hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer fade-in-up">
+        <div class="bg-color-primary-dark  hover:bg-color-primary border-2 border-solid border-color-gray text-center py-20 px-5 rounded-2xl cursor-pointer " data-aos="flip-right">
           <div class="bg-color-secondary inline-block rounded-2xl py-5 px-6">
             <i class="fa-solid fa-hospital-user text-4xl"></i>
           </div>
@@ -244,13 +243,13 @@
 <!--        </div>-->
 <!--    </section>-->
 
-    <section id="download-app" class="bg-color-primary-light">
+    <section id="download-app" class="bg-color-primary-light" data-aos="zoom-out-up">
             <div class="container h-[80vh] grid place-items-center">
                 <div class="text-center md:w-2/3 m-auto">
                     <h1 class="title">Medical Health Data Storage and Reporting</h1>
                     <p class="leading-relaxed pt-5">Effortlessly manage and securely store your medical records and reports with our comprehensive app.</p>
 
-                    <div class="flex flex-col md:flex-row items-center justify-center gap-5 pt-10">
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-5 pt-10" data-aos="fade-right">
                         <a href="#" class="bg-color-white h-16 w-44 grid place-items-center rounded-lg hover:opacity-70">
                             <img src="{% static 'images/ios-store-dark.png' %}" alt="">
                         </a>
@@ -264,8 +263,8 @@
 
 
         <section id="contact">
-            <div class="container py-20">
-                <div class="text-center m-auto mb-20 md:w-1/2">
+            <div class="container py-20" data-aos="fade-down" data-aos-easing="linear" data-aos-duration="1500">
+                <div class="text-center m-auto mb-20 md:w-1/2" data-aos="fade-right">
                     <h4 class="font-bold text-color-secondary mb-4">Have A Questation</h4>
                     <h1 class="title">Get In Touch</h1>
                 </div>
@@ -286,14 +285,14 @@
         </section>
 
         <section id="footer">
-            <div class="py-6">
+            <div class="py-6" data-aos="fade-down"  data-aos-offset="50">
                 <div class="flex justify-center items-center gap-6 pb-4">
                     <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-twitter"></i></a>
                     <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-linkedin"></i></a>
                     <a href="#" class="text-white hover:text-color-secondary text-2xl ease-in duration-200"><i class="fab fa-instagram"></i></a>
                 </div>
-                <div class="flex justify-center border-t border-gray-200 py-4 mt-3">
+                <div class="flex justify-center border-t border-gray-200 py-7  mt-3" data-aos="fade-up" data-aos-offset="50">
                     <a  href ="" class="text-lg hover:text-color-secondary">&copy; 2024 Vital Stats. All Rights Reserved.</a >
                 </div>
             </div>
@@ -327,5 +326,14 @@
 
     </script>
     <script type="text/javascript" src="{% static 'js/main.js'%}" ></script>
+      <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+    offset: 200,
+    delay: 300,
+    duration: 1200,
+    easing: 'ease',
+  });
+  </script>
 </body>
 </html>
