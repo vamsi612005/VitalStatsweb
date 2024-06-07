@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <title>{% block title %}Upload{% endblock %}</title>
     {% tailwind_css %}
-    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/upload.css' %}">
 </head>
 {% block content %}
@@ -30,7 +29,7 @@
                     <td class="border px-2 py-2">{{ record.username }}</td>
                     <td class="border px-2 py-2">{{ record.uploadtime }}</td>
                     <td class="border px-2 py-2 text-center">
-                        <a href="#" class="hover:text-color-secondary font-semibold" onclick="openModal('{{ record.health_records.url }}')">View</a>
+                        <button class="hover:text-color-secondary font-semibold" onclick="openImageModal('{{ record.health_records.url }}')">View</button>
                     </td>
                     <td class="border px-2 py-2 text-center">
                         <a href="{% url 'report' record.id %}" class="hover:text-color-secondary font-semibold">View</a>
@@ -42,49 +41,45 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div id="myModal" class="fixed inset-0 hidden flex items-center justify-center bg-black bg-opacity-50" onclick="closeModal()">
+<!-- Image Modal -->
+<div id="imageModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50">
     <div class="p-4 rounded bg-white relative max-w-md w-full">
-        <i class="fa fa-times absolute top-2 right-2 text-gray-700 m-4 text-xl cursor-pointer" aria-hidden="true" onclick="closeModal()"></i>
-        <img id="modalImage" src="" alt="Record Image" class="max-w-full p-4">
+        <button class="absolute top-1 right-1 text-gray-700 m-4 text-xl cursor-pointer" onclick="closeImageModal()"><i class="fa fa-times"></i></button>
+        <img id="modalImage" src="" alt="Record Image" class="max-w-full h-1/2 p-4">
     </div>
 </div>
 
 <!-- Text Modal -->
 {% if res %}
-<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" onclick="closeTextModal()">
+<div id="textModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 text-black">
     <div class="p-4 rounded bg-white relative max-w-md w-full" id="modalText">
-        <i class="fa fa-times absolute top-2 right-2 text-gray-700 m-4 text-xl cursor-pointer" aria-hidden="true" onclick="closeTextModal()"></i>
-        <p class="mt-5">{{ res }}</p>
+        <button class="absolute top-2 right-2 text-gray-700 m-4 text-xl cursor-pointer" onclick="closeTextModal()"><i class="fa fa-times"></i></button>
+        <p class="mt-5 max-w-[1320px] h-1/2 mx-4 overflow-y-auto">{{ res }}</p>
     </div>
 </div>
 {% endif %}
 
 <script>
-    function openModal(imageSrc) {
-        console.log(imageSrc);
+    function openImageModal(imageSrc) {
         document.getElementById('modalImage').src = imageSrc;
-        document.getElementById('myModal').classList.remove('hidden');
-        document.getElementById('myModal').classList.add('flex');
+        document.getElementById('imageModal').classList.remove('hidden');
+        document.getElementById('imageModal').classList.add('flex');
     }
 
-    function closeModal() {
-        document.getElementById('myModal').classList.add('hidden');
-        document.getElementById('myModal').classList.remove('flex');
-    }
-
-    function openTextModal() {
-        document.getElementById('modalText').classList.remove('hidden');
+    function closeImageModal() {
+        document.getElementById('imageModal').classList.add('hidden');
+        document.getElementById('imageModal').classList.remove('flex');
     }
 
     function closeTextModal() {
-        document.getElementById('modalText').classList.add('hidden');
+        var modalText = document.getElementById('textModal');
+        modalText.classList.add('hidden');
+        modalText.classList.remove('flex');
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-        window.openModal = openModal;
-        window.closeModal = closeModal;
-        window.openTextModal = openTextModal;
+        window.openImageModal = openImageModal;
+        window.closeImageModal = closeImageModal;
         window.closeTextModal = closeTextModal;
     });
 </script>
