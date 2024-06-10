@@ -1,3 +1,10 @@
-.venv\Scripts\activate
+#!/bin/bash
+
+# Install Python dependencies
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-python3.9 manage.py collectstatic
+
+# Run database migrations and collect static files (if needed)
+python manage.py migrate
+python manage.py collectstatic --noinput
