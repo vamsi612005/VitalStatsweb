@@ -6,7 +6,7 @@ charset-normalizer==3.3.2
 cloudinary==1.40.0
 colorama==0.4.6
 distlib==0.3.8
-django<5.0.6
+django>3.0
 django-baton==3.1.0
 django-browser-reload==1.12.1
 django-cloudinary-storage==0.3.0
